@@ -19,8 +19,8 @@ public class PenguinAgent : Agent
     private bool isFull;
 
     /*
-        possible actions = move forward, "move" still
-                           turn left, turn right, "turn" still
+        possible actions = move forward, dont move
+                           turn left, turn right, dont turn
     */                        
     public override void AgentAction(float[] vectorAction, string textAction)
     {
@@ -40,10 +40,10 @@ public class PenguinAgent : Agent
         animator.SetFloat("Vertical", forward);
         animator.SetFloat("Horizontal", leftOrRight);
 
-
         // chasten every step
         AddReward(-1f/agentParameters.maxStep);
     }
+
 
     public override void AgentReset()
     {
@@ -52,10 +52,12 @@ public class PenguinAgent : Agent
         penguinArea.ResetArea();
     }
 
+
     private float GetDistanceToBaby()
     {
         return Vector3.Distance(baby.transform.position, transform.position);
     }
+
 
     public override void CollectObservations()
     {
@@ -85,6 +87,7 @@ public class PenguinAgent : Agent
         AddVectorObs(rayPerception.Perceive(rayDistance, rayAngles, detectableObjects, startOffset, endOffset));
     }
 
+
     private void Start()
     {
         penguinArea = GetComponentInParent<PenguinArea>();
@@ -93,13 +96,15 @@ public class PenguinAgent : Agent
         rayPerception = GetComponent<RayPerception3D>();
     }
 
+
     private void FixedUpdate() {
-        if (Vector3.Distance(transform.position, baby.transform.position) < penguinArea.feedRadius)
+        if (GetDistanceToBaby() < penguinArea.feedRadius)
         {
             // close enough, try to feed the baby
             RegurgitateFish();
         }
     }
+
 
     private void OnCollisionEnter(Collision col)
     {
@@ -117,6 +122,7 @@ public class PenguinAgent : Agent
         }
     }
 
+
     private void EatFish(GameObject fishObject)
     {
         if (isFull) return; 
@@ -127,8 +133,7 @@ public class PenguinAgent : Agent
         AddReward(1f);
     }
 
-    // TODO
-    // refact spawn g.o.
+
     private void RegurgitateFish()
     {
         if (!isFull) return;
@@ -141,21 +146,22 @@ public class PenguinAgent : Agent
             return;
         }
 
-        GameObject regurgitatedFish = Instantiate<GameObject>(regurgitatedFishPrefab);
-        regurgitatedFish.transform.parent = transform.parent; //area
-        regurgitatedFish.transform.position = baby.transform.position;
-        Destroy(regurgitatedFish, 4f);
-
-        GameObject heart = Instantiate<GameObject>(heartPrefab);
-        heart.transform.parent = transform.parent; //area
-        heart.transform.position = baby.transform.position + Vector3.up;
-        Destroy(heart, 4f);
+        spawnPrefab(regurgitatedFishPrefab, Vector3.zero);
+        spawnPrefab(regurgitatedFishPrefab, Vector3.up);
     }
+
+
+    private void spawnPrefab(GameObject prefab, Vector3 tilt)
+    {
+        GameObject go = Instantiate<GameObject>(prefab);
+        go.transform.parent = transform.parent; // Penguin Area
+        go.transform.position = baby.transform.position + tilt;
+        Destroy(go, 4f);
+    }
+
 
     public override float[] Heuristic()
     {
-
-
         float[] playerInput = { 0f, 0f };
 
         if (Input.GetKey(KeyCode.W))
@@ -170,6 +176,7 @@ public class PenguinAgent : Agent
         {
             playerInput[1] = 2;
         }
+
         return playerInput;
     }
 }

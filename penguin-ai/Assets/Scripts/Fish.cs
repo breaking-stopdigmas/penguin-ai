@@ -5,10 +5,10 @@ using UnityEngine;
 public class Fish : MonoBehaviour
 {
     public float fishSpeed;
-
     private float randomizedSpeed = 0f;
     private float nextActionTime = -1f;
     private Vector3 targetPosition;
+
 
     private void FixedUpdate()
     {
@@ -17,6 +17,7 @@ public class Fish : MonoBehaviour
             Swim();
         }
     }
+
 
     private void Swim()
     {
@@ -30,16 +31,17 @@ public class Fish : MonoBehaviour
         }
     }
 
-    // TODO
-    // copy in penguinarea the fish spawn
+
     private void CalculateWaypoint()
     {
         // Randomize the speed
         float speedVariance = UnityEngine.Random.Range(.5f, 1.5f);
         randomizedSpeed = fishSpeed * speedVariance;
 
+        float minAngle = 100f, maxAngle = 260f;
+        float minRadius = 2f, maxRadius = 13f;
         // Pick a random target
-        targetPosition = PenguinArea.ChooseRandomPosition(transform.parent.position, 100f, 260f, 2f, 13f);
+        targetPosition = PenguinArea.ChooseRandomPosition(transform.parent.position, minAngle, maxAngle, minRadius, maxRadius);
 
         // rortate towards the target
         transform.rotation = Quaternion.LookRotation(targetPosition - transform.position, Vector3.up);
@@ -49,6 +51,7 @@ public class Fish : MonoBehaviour
 
         nextActionTime = Time.fixedTime + timeToGetThere;
     }
+
 
     private void GoToWaypoint()
     {

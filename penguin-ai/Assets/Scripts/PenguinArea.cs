@@ -83,6 +83,8 @@ public class PenguinArea : Area
 
         fishList = new List<GameObject>(); // or clear()?
     }
+
+
     private void PlacePenguin()
     {
         float minAngle = 0f, maxAngle = 360f;
@@ -93,6 +95,8 @@ public class PenguinArea : Area
         float randomAngle = UnityEngine.Random.Range(minAngle, maxAngle);
         penguinAgent.transform.rotation = Quaternion.Euler(0f, randomAngle, 0f);
     }
+
+
     private void PlaceBaby()
     {
         float minAngle = -45f, maxAngle = 45f;
@@ -102,6 +106,8 @@ public class PenguinArea : Area
 
         penguinBaby.transform.rotation = Quaternion.Euler(0f, 180f, 0f);
     }
+
+
     private void SpawnFish(int fishSpawnQuantity, float fishSpeed)
     {
         for (int i = 0; i < fishSpawnQuantity; ++i)
@@ -120,10 +126,13 @@ public class PenguinArea : Area
         }
     }
 
+
     private void SetCumulativeRewardText()
     {
         cumulativeRewardText.text = penguinAgent.GetCumulativeReward().ToString("0.000");
     }
+
+
     private void Update()
     {
         SetCumulativeRewardText();
