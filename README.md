@@ -80,9 +80,13 @@ Para se testar manualmente o jogo, isso é, sem a inteligência do agente em si,
 3 - no componente Behavior Parameters, ativar o "Use Heuristic"
 ```
 
-![Passos 1 e 2]()
+![Passos 1 e 2](./docs/imgs/player_scene.png)
 
-![Passo 3]()
+Passos 1 e 2
+
+![Passo 3](./docs/imgs/use_heuristic.png)
+
+Passo 3
 
 # Como treinar o pinguim
 Para treinar, basta:
@@ -124,7 +128,6 @@ E abrir o link gerado no navegador
 > https://github.com/Unity-Technologies/ml-agents/blob/master/docs/Reward-Signals.md
 
 > https://github.com/Unity-Technologies/ml-agents/blob/master/docs/Training-Curriculum-Learning.md
-
 
 > https://github.com/Unity-Technologies/ml-agents/blob/master/docs/Learning-Environment-Design.md
 
